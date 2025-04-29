@@ -1,14 +1,13 @@
 INSERT INTO tb_user (name, phone, email, password, cpf) VALUES ('Alex', '999998888', 'alex@gmail.com', '123456', '111111111');
 INSERT INTO tb_user (name, phone, email, password, cpf) VALUES ('Maria', '777776666', 'maria@gmail.com', '7891011', '222222222');
-
-INSERT INTO tb_administrator (name, phone, email, password) VALUES ('Leticia', '555552222', 'leticia@gmail.com', 'leticia1');
+INSERT INTO tb_user (name, phone, email, password, cpf) VALUES ('Leticia', '555552222', 'leticia@gmail.com', 'leticia1', '333333333');
 
 INSERT INTO tb_role (authority) VALUES ('ROLE_OPERATOR');
 INSERT INTO tb_role (authority) VALUES ('ROLE_ADMIN');
 
 INSERT INTO tb_user_role (user_id, role_id) VALUES (1, 1);
 INSERT INTO tb_user_role (user_id, role_id) VALUES (2, 1);
-INSERT INTO tb_administrator_role (administrator_id, role_id) VALUES (1, 2);
+INSERT INTO tb_user_role (user_id, role_id) VALUES (3, 2);
 
 INSERT INTO tb_category (name) VALUES ('Placas mães');
 INSERT INTO tb_category (name) VALUES ('Memorias');
