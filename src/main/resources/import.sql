@@ -2,6 +2,9 @@ INSERT INTO tb_user (name, phone, email, password, cpf) VALUES ('Alex', '9999988
 INSERT INTO tb_user (name, phone, email, password, cpf) VALUES ('Maria', '777776666', 'maria@gmail.com', '7891011', '222222222');
 INSERT INTO tb_user (name, phone, email, password, cpf) VALUES ('Leticia', '555552222', 'leticia@gmail.com', 'leticia1', '333333333');
 
+INSERT INTO tb_address (street, city, state, zip_code, country, user_id) VALUES ('Av. Paulista, 1000', 'São Paulo', 'SP', '01310-100', 'BR', 2);  
+INSERT INTO tb_address (street, city, state, zip_code, country, user_id) VALUES ('Rua das Flores, 123', 'Rio de Janeiro', 'RJ', '21030-330', 'BR', 1);
+
 INSERT INTO tb_role (authority) VALUES ('ROLE_OPERATOR');
 INSERT INTO tb_role (authority) VALUES ('ROLE_ADMIN');
 
