@@ -1,11 +1,11 @@
-INSERT INTO tb_user (name, phone, email, password, cpf) VALUES ('Alex', '999998888', 'alex@gmail.com', '$2a$10$N7SkKCa3r17ga.i.dF9iy.BFUBL2n3b6Z1CWSZWi/qy7ABq/E6VpO', '111111111');
-INSERT INTO tb_user (name, phone, email, password, cpf) VALUES ('Maria', '777776666', 'maria@gmail.com', '$2a$10$N7SkKCa3r17ga.i.dF9iy.BFUBL2n3b6Z1CWSZWi/qy7ABq/E6VpO', '222222222');
-INSERT INTO tb_user (name, phone, email, password, cpf) VALUES ('Leticia', '555552222', 'leticia@gmail.com', '$2a$10$N7SkKCa3r17ga.i.dF9iy.BFUBL2n3b6Z1CWSZWi/qy7ABq/E6VpO', '333333333');
+INSERT INTO tb_user (name, phone, email, birth_date, cpf,  password) VALUES ('Alex', '999998888', 'alex@gmail.com', '2001-07-25', '111111111','$2a$10$N7SkKCa3r17ga.i.dF9iy.BFUBL2n3b6Z1CWSZWi/qy7ABq/E6VpO');
+INSERT INTO tb_user (name, phone, email, birth_date, cpf,  password) VALUES ('Maria', '777776666', 'maria@gmail.com', '1987-12-13', '222222222','$2a$10$N7SkKCa3r17ga.i.dF9iy.BFUBL2n3b6Z1CWSZWi/qy7ABq/E6VpO');
+INSERT INTO tb_user (name, phone, email, birth_date, cpf,  password) VALUES ('Leticia', '555552222', 'leticia@gmail.com', '2000-05-12', '333333333','$2a$10$N7SkKCa3r17ga.i.dF9iy.BFUBL2n3b6Z1CWSZWi/qy7ABq/E6VpO');
 
 INSERT INTO tb_address (street, city, state, zip_code, country, user_id) VALUES ('Av. Paulista, 1000', 'São Paulo', 'SP', '01310-100', 'BR', 2);  
 INSERT INTO tb_address (street, city, state, zip_code, country, user_id) VALUES ('Rua das Flores, 123', 'Rio de Janeiro', 'RJ', '21030-330', 'BR', 1);
 
-INSERT INTO tb_role (authority) VALUES ('ROLE_OPERATOR');
+INSERT INTO tb_role (authority) VALUES ('ROLE_CLIENT');
 INSERT INTO tb_role (authority) VALUES ('ROLE_ADMIN');
 
 INSERT INTO tb_user_role (user_id, role_id) VALUES (1, 1);

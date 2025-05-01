@@ -2,6 +2,7 @@ package com.titanrig.titanrig.entities;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.time.LocalDate;
 import java.util.Collection;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -42,8 +43,9 @@ public class User implements Person, UserDetails{
 
     @Column(unique = true)
     private String email;
-    private String password;
+    private LocalDate birthDate;
     private String cpf;
+    private String password;
 
     @ManyToMany
     @JoinTable(name = "tb_user_role",

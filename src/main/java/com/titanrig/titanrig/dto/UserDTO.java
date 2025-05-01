@@ -1,5 +1,6 @@
 package com.titanrig.titanrig.dto;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +32,7 @@ public class UserDTO {
     @Email(message = "Favor entrar com email válido")
     private String email;
     private String cpf;
+    private LocalDate birthDate;
 
     private List<String> roles = new ArrayList<>();
 
@@ -39,6 +41,7 @@ public class UserDTO {
         name = entity.getName();
         email = entity.getEmail();
         cpf = entity.getCpf();
+        birthDate = entity.getBirthDate();
         for (GrantedAuthority role : entity.getRoles()){
             roles.add(role.getAuthority());
         }
