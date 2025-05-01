@@ -1,6 +1,6 @@
-INSERT INTO tb_user (name, phone, email, password, cpf) VALUES ('Alex', '999998888', 'alex@gmail.com', '123456', '111111111');
-INSERT INTO tb_user (name, phone, email, password, cpf) VALUES ('Maria', '777776666', 'maria@gmail.com', '7891011', '222222222');
-INSERT INTO tb_user (name, phone, email, password, cpf) VALUES ('Leticia', '555552222', 'leticia@gmail.com', 'leticia1', '333333333');
+INSERT INTO tb_user (name, phone, email, password, cpf) VALUES ('Alex', '999998888', 'alex@gmail.com', '$2a$10$N7SkKCa3r17ga.i.dF9iy.BFUBL2n3b6Z1CWSZWi/qy7ABq/E6VpO', '111111111');
+INSERT INTO tb_user (name, phone, email, password, cpf) VALUES ('Maria', '777776666', 'maria@gmail.com', '$2a$10$N7SkKCa3r17ga.i.dF9iy.BFUBL2n3b6Z1CWSZWi/qy7ABq/E6VpO', '222222222');
+INSERT INTO tb_user (name, phone, email, password, cpf) VALUES ('Leticia', '555552222', 'leticia@gmail.com', '$2a$10$N7SkKCa3r17ga.i.dF9iy.BFUBL2n3b6Z1CWSZWi/qy7ABq/E6VpO', '333333333');
 
 INSERT INTO tb_address (street, city, state, zip_code, country, user_id) VALUES ('Av. Paulista, 1000', 'São Paulo', 'SP', '01310-100', 'BR', 2);  
 INSERT INTO tb_address (street, city, state, zip_code, country, user_id) VALUES ('Rua das Flores, 123', 'Rio de Janeiro', 'RJ', '21030-330', 'BR', 1);
