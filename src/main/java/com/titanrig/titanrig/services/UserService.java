@@ -23,7 +23,7 @@ import com.titanrig.titanrig.projections.UserDetailsProjection;
 import com.titanrig.titanrig.repositories.UserRepository;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService{
 
     @Autowired
     private UserRepository repository;
