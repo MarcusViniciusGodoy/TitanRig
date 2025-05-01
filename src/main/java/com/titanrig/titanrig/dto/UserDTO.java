@@ -1,8 +1,9 @@
 package com.titanrig.titanrig.dto;
 
-import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.security.core.GrantedAuthority;
 
 import com.titanrig.titanrig.entities.User;
 
@@ -17,8 +18,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserDTO implements Serializable{
-    private static final long serialVersionUID = 1L;
+public class UserDTO {
 
     private Long id;
 
@@ -32,13 +32,15 @@ public class UserDTO implements Serializable{
     private String email;
     private String cpf;
 
-    Set<RoleDTO> roles = new HashSet<>();
+    private List<String> roles = new ArrayList<>();
 
     public UserDTO(User entity){
         id = entity.getId();
         name = entity.getName();
         email = entity.getEmail();
         cpf = entity.getCpf();
-        entity.getRoles().forEach(role -> this.roles.add(new RoleDTO(role)));
+        for (GrantedAuthority role : entity.getRoles()){
+            roles.add(role.getAuthority());
+        }
     }
 }
