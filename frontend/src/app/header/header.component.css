@@ -69,4 +69,22 @@
       gap: 10px;
     }
   }
+
+  .login-btn {
+    background-color: transparent;
+    border: none;
+    color: #333;
+    font-size: 20px;
+    cursor: pointer;
+    text-decoration: none;
+  }
+  
+  .login-btn i {
+    font-size: 20px;
+  }
+  
+  .login-btn:hover {
+    color: #117a10; /* mesma cor usada no botão do carrinho */
+  }
+  
   
