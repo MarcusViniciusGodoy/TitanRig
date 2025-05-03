@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { ContainerComponent } from './componentes/container/container.component';
-import { HeaderComponent } from './header/header.component';
+import { HeaderComponent } from './componentes/header/header.component';
+import { LoginComponent } from './componentes/login/login.component';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +12,8 @@ import { HeaderComponent } from './header/header.component';
     CommonModule,
     RouterOutlet,
     ContainerComponent,
-    HeaderComponent
+    HeaderComponent,
+    LoginComponent
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
