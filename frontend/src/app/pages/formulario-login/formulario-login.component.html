@@ -5,24 +5,27 @@
         </section>
     </header>
 
-    <form>
+    <form [formGroup]="loginForm" (ngSubmit)="salvarLogin()">
         <label for="nome">Nome</label>
     <input
         type="text"
         id="nome"
         placeholder="Digite o nome completo"
+        formControlName="nome"
     />
     <label for="telefone">Telefone</label>
     <input
         type="text"
         id="telefone"
         placeholder="Digite o telefone celular"
+        formControlName="telefone"
     />
         <label for="email">E-mail</label>
     <input
         type="email"
         id="email"
         placeholder="Digite o E-mail"
+        formControlName="email"
     />
 
     <label for="aniversario">Aniversário</label>
@@ -30,6 +33,7 @@
         type="date"
         id="aniversario"
         placeholder="Data de nascimento"
+        formControlName="aniversario"
     />
 
     <label for="senha">Senha</label>
@@ -37,15 +41,17 @@
         type="password"
         id="senha"
         placeholder="Digite a senha"
+        formControlName="senha"
     />
     <input
         type="password"
         id="confirmaSenha"
         placeholder="Confirme a senha"
+        formControlName="confirmaSenha"
     />
 
     <section class="botoes"> 
-        <button class="botao-cancelar" type="button">Cancelar</button>
+        <button (click)="cancelar()" class="botao-cancelar" type="button">Cancelar</button>
         <button class="botao-salvar" type="submit">Salvar contato</button>
     </section>
     </form>

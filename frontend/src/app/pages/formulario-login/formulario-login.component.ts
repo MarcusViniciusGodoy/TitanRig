@@ -20,13 +20,21 @@ export class FormularioLoginComponent {
 
   constructor() {
     this.loginForm = new FormGroup({
-      nome: new FormControl(''),
-      telefone: new FormControl(''),
-      email: new FormControl(''),
+      nome: new FormControl('Marcus'),
+      telefone: new FormControl('11 1111-1111'),
+      email: new FormControl('marcus@email.com'),
       aniversario: new FormControl(''),
-      senha: new FormControl(''),
-      confirmaSenha: new FormControl('')
+      senha: new FormControl('123'),
+      confirmaSenha: new FormControl('123')
     })
+  }
+  
+  salvarLogin(){
+    console.log(this.loginForm.value);
+  }
+  
+  cancelar(){
+    console.log('Submissão cancelada');
   }
 }
 
