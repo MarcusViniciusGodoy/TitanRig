@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 
 import { FormularioLoginComponent } from './pages/formulario-login/formulario-login.component';
-import { ContainerComponent } from './componentes/container/container.component';
+import { HomeComponent } from './pages/home/home.component';
 
 export const routes: Routes = [
   { 
@@ -10,11 +10,11 @@ export const routes: Routes = [
   },
   { 
     path:'home', 
-    component: ContainerComponent
+    component: HomeComponent
   },
   { 
     path:'', 
-    component: ContainerComponent,
+    component: HomeComponent,
     pathMatch: 'full'
   }
 ];
