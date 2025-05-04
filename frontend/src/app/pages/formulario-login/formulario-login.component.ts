@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { ContainerComponent } from '../../componentes/container/container.component';
 
@@ -20,16 +20,17 @@ export class FormularioLoginComponent {
 
   constructor() {
     this.loginForm = new FormGroup({
-      nome: new FormControl('Marcus'),
-      telefone: new FormControl('11 1111-1111'),
-      email: new FormControl('marcus@email.com'),
+      nome: new FormControl('', Validators.required),
+      telefone: new FormControl('', Validators.required),
+      email: new FormControl('', [Validators.required, Validators.email]),
       aniversario: new FormControl(''),
-      senha: new FormControl('123'),
-      confirmaSenha: new FormControl('123')
+      senha: new FormControl('', Validators.required),
+      confirmaSenha: new FormControl('', Validators.required)
     })
   }
   
   salvarLogin(){
+    if(this.loginForm.valid)
     console.log(this.loginForm.value);
   }
   
