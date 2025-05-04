@@ -13,6 +13,12 @@
         placeholder="Digite o nome completo"
         formControlName="nome"
     />
+    @if (loginForm.get('nome')?.errors && loginForm.get('nome')?.touched) {
+      <div class="mensagem-erro">
+        Campo obrigatório
+      </div>
+    }
+
     <label for="telefone">Telefone</label>
     <input
         type="text"
@@ -20,13 +26,29 @@
         placeholder="Digite o telefone celular"
         formControlName="telefone"
     />
-        <label for="email">E-mail</label>
+    @if (loginForm.get('telefone')?.errors && loginForm.get('telefone')?.touched) {
+      <div class="mensagem-erro">
+        Campo obrigatório
+      </div>
+    }
+
+    <label for="email">E-mail</label>
     <input
         type="email"
         id="email"
         placeholder="Digite o E-mail"
         formControlName="email"
     />
+    @if (loginForm.get('email')?.errors?.['required'] && loginForm.get('email')?.touched) {
+      <div class="mensagem-erro">
+        Campo obrigatório
+      </div>
+    }
+    @if (loginForm.get('email')?.errors?.['email'] && loginForm.get('email')?.touched) {
+      <div class="mensagem-erro">
+        Formato de e-mail inválido
+      </div>
+    }
 
     <label for="aniversario">Aniversário</label>
     <input
@@ -43,17 +65,34 @@
         placeholder="Digite a senha"
         formControlName="senha"
     />
+    @if (loginForm.get('senha')?.errors && loginForm.get('senha')?.touched) {
+      <div class="mensagem-erro">
+        Campo obrigatório
+      </div>
+    }
+
     <input
         type="password"
         id="confirmaSenha"
         placeholder="Confirme a senha"
         formControlName="confirmaSenha"
     />
+    @if (loginForm.get('confirmaSenha')?.errors && loginForm.get('confirmaSenha')?.touched) {
+      <div class="mensagem-erro">
+        Campo obrigatório
+      </div>
+    }
 
     <section class="botoes"> 
-        <button (click)="cancelar()" class="botao-cancelar" type="button">Cancelar</button>
-        <button class="botao-salvar" type="submit">Salvar contato</button>
+      <button (click)="cancelar()" class="botao-cancelar" type="button">Cancelar</button>
+      <button 
+        [disabled]="loginForm.invalid"
+        [ngClass]="loginForm.valid ? 'botao-salvar' : 'botao-desabilitado'"
+        type="submit">
+        Salvar 
+      </button>
+
     </section>
-    </form>
+    </form>   
     
 </app-container>

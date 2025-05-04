@@ -6,6 +6,7 @@ import { ContainerComponent } from '../../componentes/container/container.compon
 
 @Component({
   selector: 'app-formulario-login',
+  standalone: true,
   imports: [
     CommonModule,
     ContainerComponent,
@@ -30,7 +31,6 @@ export class FormularioLoginComponent {
   }
   
   salvarLogin(){
-    if(this.loginForm.valid)
     console.log(this.loginForm.value);
   }
   
