@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
+
 import { ContainerComponent } from './componentes/container/container.component';
 import { HeaderComponent } from './componentes/header/header.component';
-import { LoginComponent } from './componentes/login/login.component';
+import { FormularioLoginComponent } from './pages/formulario-login/formulario-login.component';
 
 @Component({
   selector: 'app-root',
@@ -13,7 +14,7 @@ import { LoginComponent } from './componentes/login/login.component';
     RouterOutlet,
     ContainerComponent,
     HeaderComponent,
-    LoginComponent
+    FormularioLoginComponent
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
