@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 
 import { ContainerComponent } from '../../componentes/container/container.component';
 
@@ -9,15 +9,24 @@ import { ContainerComponent } from '../../componentes/container/container.compon
   imports: [
     CommonModule,
     ContainerComponent,
-    FormsModule
+    ReactiveFormsModule
   ],
   templateUrl: './formulario-login.component.html',
   styleUrl: './formulario-login.component.css'
 })
 export class FormularioLoginComponent {
 
-  senha: string = '';
-  confirmarSenha: string = '';
-  senhaVisivel: boolean = false;
-  confirmarSenhaVisivel: boolean = false;
+  loginForm!: FormGroup;
+
+  constructor() {
+    this.loginForm = new FormGroup({
+      nome: new FormControl(''),
+      telefone: new FormControl(''),
+      email: new FormControl(''),
+      aniversario: new FormControl(''),
+      senha: new FormControl(''),
+      confirmaSenha: new FormControl('')
+    })
+  }
 }
+
