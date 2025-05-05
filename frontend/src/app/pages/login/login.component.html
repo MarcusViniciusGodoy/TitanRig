@@ -1,1 +1,24 @@
-<p>login works!</p>
+<div class="login-container">
+    <!-- Lado esquerdo: formulário de login -->
+    <div class="logo-section">
+      <div style="width: 70%;">
+        <h2>Bem-vindo de volta!</h2>
+        <p>Entre com sua conta</p>
+  
+        <input type="email" placeholder="E-mail" />
+        <input type="password" placeholder="Senha" />
+  
+        <button>Entrar</button>
+        <a href="#">Esqueci minha senha</a>
+      </div>
+    </div>
+  
+    <!-- Lado direito: redirecionamento para cadastro -->
+    <div class="form-section" style="text-align: center;">
+      <h2>Novo aqui?</h2>
+      <p>Crie uma conta para começar</p>
+      <button (click)="irParaCadastro()">Cadastre-se</button>
+    </div>
+  </div>
+  
+  

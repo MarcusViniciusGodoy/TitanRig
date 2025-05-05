@@ -1,0 +1,85 @@
+.login-container {
+    display: flex;
+    height: 100vh;
+    color: white;
+    background-image: url('../../../assets/Principal.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  /* Logo à esquerda com sombra para destacar */
+  .logo-section {
+    flex: 1;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: inset -2px 0 10px rgba(0, 255, 153, 0.2);
+  }
+  
+  .logo-img {
+    max-width: 70%;
+    height: auto;
+    filter: drop-shadow(0 0 15px #00ff99); /* brilho verde no logo */
+  }
+  
+  /* Formulário de login e cadastro */
+  .form-section {
+    flex: 1;
+    padding: 40px;
+    background-color: rgba(10, 15, 28, 0.85);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    box-shadow: inset 2px 0 10px rgba(0, 255, 153, 0.2);
+  }
+  
+  /* Campos de entrada */
+  input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0 20px;
+    border: 1px solid #00ff99;
+    border-radius: 6px;
+    background-color: #0a0f1f;
+    color: #ffffff;
+  }
+  
+  input:focus {
+    outline: none;
+    border-color: #5eead4;
+    box-shadow: 0 0 10px #5eead4;
+  }
+  
+  /* Botões */
+  button {
+    background-color: #00ff99;
+    color: black;
+    padding: 12px;
+    border: none;
+    border-radius: 6px;
+    width: 100%;
+    font-weight: bold;
+    transition: background 0.3s ease;
+  }
+  
+  button:hover {
+    background-color: #00cc7a;
+    cursor: pointer;
+  }
+  
+  /* Link de cadastro/esqueci senha */
+  a {
+    color: #5eead4;
+    text-decoration: none;
+    margin-top: 15px;
+    display: inline-block;
+    font-size: 14px;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }
+  
