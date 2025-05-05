@@ -11,6 +11,11 @@ export class LoginComponent {
   constructor(private router: Router) {}
 
   irParaCadastro() {
-    this.router.navigate(['/formulario']); 
+    this.router.navigate(['/formulario']);
+  }
+
+  login() {
+    localStorage.setItem('isLoggedIn', 'true'); 
+    this.router.navigate(['/home']); 
   }
 }

@@ -1,27 +1,41 @@
 <header class="header">
-    <div class="logo">
-      <img src="/src/assets/Principal.png">
-    </div>
-  
-    <nav class="nav">
-      <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="#">Produtos</a></li>
-        <li><a href="#">Contato</a></li>
-      </ul>
-    </nav>
-  
-    <div class="actions">
-      <input type="text" placeholder="Buscar produtos..." class="search-bar" />
-      
-      <!-- Botão do carrinho -->
-      <button class="cart-btn">
-        <i class="fas fa-shopping-cart"></i>
+  <div class="logo">
+    <img src="/src/assets/Principal.png">
+  </div>
+
+  <nav class="nav">
+    <ul>
+      <li><a href="#">Produtos</a></li>
+      <li><a href="#">Contato</a></li>
+    </ul>
+  </nav>
+
+  <div class="actions">
+    <input type="text" placeholder="Buscar produtos..." class="search-bar" />
+
+    <!-- Botão do carrinho -->
+    <button class="cart-btn">
+      <i class="fas fa-shopping-cart"></i>
+    </button>
+
+    <!-- Menu de usuário, visível sempre -->
+    <div class="user-menu">
+      <button class="user-btn" (click)="goToLogin()">
+        <i class="fas fa-bars"></i>
       </button>
-  
-      <!-- Botão de login -->
-      <a routerLink="/login" class="login-btn">
-        <i class="fas fa-user"></i>
-      </a>
+      <div class="dropdown-menu">
+        <ul>
+          <li><a (click)="goToLogin()">Meu Perfil</a></li>
+          <li><a (click)="goToLogin()">Meus Pedidos</a></li>
+          <li><a (click)="goToLogin()">Configurações</a></li>
+          <li><a (click)="goToLogin()">Sair</a></li>
+        </ul>
+      </div>
     </div>
-  </header>
+
+    <!-- Botão de login, aparece se o usuário não estiver logado -->
+    <a *ngIf="!isLoggedIn" routerLink="/login" class="login-btn">
+      <i class="fas fa-user"></i>
+    </a>
+  </div>
+</header>
