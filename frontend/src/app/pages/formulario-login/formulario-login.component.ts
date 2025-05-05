@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -17,7 +18,9 @@ export class FormularioLoginComponent {
 
   loginForm!: FormGroup;
 
-  constructor() {
+  constructor(
+    private router: Router
+  ) {
     this.loginForm = new FormGroup({
       nome: new FormControl('', Validators.required),
       telefone: new FormControl('', Validators.required),
@@ -30,10 +33,12 @@ export class FormularioLoginComponent {
   
   salvarLogin(){
     console.log(this.loginForm.value);
+    this.loginForm.reset();
+    this.router.navigateByUrl('/login')
   }
   
   cancelar(){
-    console.log('Submissão cancelada');
+    this.loginForm.reset();
   }
 }
 
