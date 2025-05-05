@@ -2,14 +2,12 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
-import { ContainerComponent } from '../../componentes/container/container.component';
 
 @Component({
   selector: 'app-formulario-login',
   standalone: true,
   imports: [
     CommonModule,
-    ContainerComponent,
     ReactiveFormsModule
   ],
   templateUrl: './formulario-login.component.html',

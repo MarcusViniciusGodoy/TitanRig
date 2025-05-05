@@ -3,7 +3,6 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ContainerComponent } from '../../componentes/container/container.component';
 import { HeaderComponent } from '../../componentes/header/header.component';
-import { LoginComponent } from '../login/login.component';
 
 @Component({
   selector: 'app-home',
@@ -11,8 +10,7 @@ import { LoginComponent } from '../login/login.component';
     CommonModule,
     RouterOutlet,
     ContainerComponent,
-    HeaderComponent,
-    LoginComponent
+    HeaderComponent
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
