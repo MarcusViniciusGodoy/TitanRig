@@ -37,6 +37,29 @@ header .cabecalho-link {
   align-items: center;
 }
 
+.voltar-container {
+  margin-bottom: 24px;
+}
+
+.botao-voltar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 500;
+  color: #00ff99; /* Verde do projeto */
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.botao-voltar img.seta {
+  width: 24px;
+  height: 24px;
+  filter: brightness(0) saturate(100%) invert(71%) sepia(81%) saturate(392%) hue-rotate(92deg) brightness(97%) contrast(101%);
+}
+
 header .cabecalho-link img {
   align-self: center;
   margin-bottom: 40px;
