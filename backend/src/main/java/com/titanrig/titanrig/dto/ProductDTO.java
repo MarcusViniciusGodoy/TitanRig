@@ -9,6 +9,7 @@ import com.titanrig.titanrig.entities.Category;
 import com.titanrig.titanrig.entities.Product;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -25,7 +26,7 @@ public class ProductDTO implements Serializable{
 
     private Long id;
 
-    @Size(min = 5, max = 60, message = "Deve ter entre 5 e 60 caracteres")
+    @Size(min = 2, max = 60, message = "Deve ter entre 5 e 60 caracteres")
     @NotBlank(message = "Campo obrigatório")
     private String name;
 
@@ -35,6 +36,7 @@ public class ProductDTO implements Serializable{
     @Positive(message = "Preço deve ser um valor positivo")
     private Double price;
 
+    @NotEmpty(message = "Deve ter pelo menos uma categoria")
     private List<CategoryDTO> categories = new ArrayList<>();
 
     public ProductDTO(Product entity) {

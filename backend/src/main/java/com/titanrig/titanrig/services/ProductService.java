@@ -8,7 +8,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.titanrig.titanrig.dto.CategoryDTO;
 import com.titanrig.titanrig.dto.ProductDTO;
+import com.titanrig.titanrig.entities.Category;
 import com.titanrig.titanrig.entities.Product;
 import com.titanrig.titanrig.exceptions.ResourceNotFoundException;
 import com.titanrig.titanrig.repositories.ProductRepository;
@@ -30,5 +32,26 @@ public class ProductService {
         Optional<Product> obj = repository.findById(id);
         Product entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
         return new ProductDTO(entity, entity.getCategories());
+    }
+
+    @Transactional
+    public ProductDTO insert(ProductDTO dto){
+        Product entity = new Product();
+        copyDtoToEntity(dto, entity);
+        entity = repository.save(entity);
+        return new ProductDTO(entity);
+    }
+
+    private void copyDtoToEntity(ProductDTO dto, Product entity) {
+        entity.setName(dto.getName());
+        entity.setDescription(dto.getDescription());
+        entity.setPrice(dto.getPrice());
+        
+        entity.getCategories().clear();
+        for (CategoryDTO catDto : dto.getCategories()) {
+        	Category cat = new Category();
+        	cat.setId(catDto.getId());
+        	entity.getCategories().add(cat);
+        }
     }
 }
