@@ -1,5 +1,9 @@
 body {
-    background: linear-gradient(180deg, #117A10 0%, #65b966 100%);
+    background-image: url('assets/Principal.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     margin: 0;
+    padding: 0;
     min-height: 100vh;
 }
