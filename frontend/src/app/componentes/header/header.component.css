@@ -7,12 +7,18 @@
   padding: 1rem 2rem;
   position: relative; 
   z-index: 10; 
+  border-bottom: 1px solid rgba(34, 32, 32, 0.2);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: #3f3d3d;
 }
 
 .logo img {
   height: 80px;
   width: auto;
-  filter: drop-shadow(0 0 6px #bce2d3); 
+  filter: drop-shadow(0 0 6px #05e78d); 
 }
 
 /* Navegação */
