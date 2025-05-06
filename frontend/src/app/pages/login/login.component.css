@@ -1,3 +1,42 @@
+.login-header {
+  background: transparent;
+  padding: 0;
+  margin: 0;
+  border: none;
+  box-shadow: none;
+  height: auto;
+  display: flex;
+  align-items: flex-start;
+  z-index: 10; 
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.logo-link {
+  text-decoration: inline-block;
+}
+
+.logo-img-header {
+  height: 40px;
+  width: auto;
+  filter: drop-shadow(0 0 6px #b2ddcc); 
+}
+
+.logo-section img {
+  max-width: 200px;
+  height: auto;
+}
+
+.logo-img {
+  max-height: 140px;
+  margin-left: 10px;
+  height: auto;
+  width: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 0 4px #bce2d3);
+}
+
 .login-container {
     display: flex;
     height: 100vh;
