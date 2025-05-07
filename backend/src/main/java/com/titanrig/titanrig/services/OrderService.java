@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.titanrig.titanrig.dto.OrderDTO;
 import com.titanrig.titanrig.dto.OrderItemDTO;
-import com.titanrig.titanrig.dto.ProductDTO;
 import com.titanrig.titanrig.entities.Order;
 import com.titanrig.titanrig.entities.OrderItem;
 import com.titanrig.titanrig.entities.OrderStatus;
