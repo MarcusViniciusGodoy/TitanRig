@@ -1,4 +1,4 @@
-package com.titanrig.titanrig.resources.exceptions;
+package com.titanrig.titanrig.controller.exceptions;
 
 import java.time.Instant;
 

@@ -1,4 +1,4 @@
-package com.titanrig.titanrig.resources;
+package com.titanrig.titanrig.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -14,7 +14,7 @@ import com.titanrig.titanrig.services.CategoryService;
 
 @RestController
 @RequestMapping(value = "/categories")
-public class CategoryResource {
+public class CategoryController {
 
     @Autowired
     private CategoryService service;

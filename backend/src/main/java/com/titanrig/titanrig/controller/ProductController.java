@@ -1,4 +1,4 @@
-package com.titanrig.titanrig.resources;
+package com.titanrig.titanrig.controller;
 
 import java.net.URI;
 
@@ -24,7 +24,7 @@ import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/products")
-public class ProductResource {
+public class ProductController {
 
     @Autowired
     private ProductService service;
