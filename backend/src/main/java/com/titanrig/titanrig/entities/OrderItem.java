@@ -27,6 +27,10 @@ public class OrderItem {
         this.price = price;
     }
 
+    public Product getProduct() {
+        return id.getProduct();
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;

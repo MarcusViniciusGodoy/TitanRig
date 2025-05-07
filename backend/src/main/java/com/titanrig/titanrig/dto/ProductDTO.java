@@ -35,6 +35,7 @@ public class ProductDTO implements Serializable{
 
     @Positive(message = "Preço deve ser um valor positivo")
     private Double price;
+    private String imgUrl;
 
     @NotEmpty(message = "Deve ter pelo menos uma categoria")
     private List<CategoryDTO> categories = new ArrayList<>();
@@ -44,6 +45,10 @@ public class ProductDTO implements Serializable{
         name = entity.getName();
         description = entity.getDescription();
         price = entity.getPrice();
+        imgUrl = entity.getImgUrl();
+        for (Category cat : entity.getCategories()) {
+        	categories.add(new CategoryDTO(cat));
+        }
     }
 
     public ProductDTO(Product entity, Set<Category> categories) {
