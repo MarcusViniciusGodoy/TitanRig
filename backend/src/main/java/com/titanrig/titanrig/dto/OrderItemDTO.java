@@ -12,6 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderItemDTO {
+	
 
     private Long productId;
 	private String name;
@@ -30,4 +31,6 @@ public class OrderItemDTO {
     public Double getSubTotal() {
 		return price * quantity;
 	}
+
+	
 }

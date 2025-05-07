@@ -1,4 +1,4 @@
-package com.titanrig.titanrig.controller.exceptions;
+package com.titanrig.titanrig.controller;
 
 import java.net.URI;
 
@@ -39,5 +39,12 @@ public class OrderController {
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
                 .buildAndExpand(dto.getId()).toUri();
         return ResponseEntity.created(uri).body(dto);
+    }
+
+    @PreAuthorize("hasRole('ROLE_CLIENT')")
+    @PostMapping("/{id}/items")
+    public ResponseEntity<OrderDTO> update(@PathVariable Long id, @Valid @RequestBody OrderDTO dto){
+        OrderDTO updated = service.update(id, dto);
+        return ResponseEntity.ok(updated);
     }
 }

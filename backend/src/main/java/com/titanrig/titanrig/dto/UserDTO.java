@@ -39,6 +39,7 @@ public class UserDTO {
     public UserDTO(User entity){
         id = entity.getId();
         name = entity.getName();
+        phone = entity.getPhone();
         email = entity.getEmail();
         cpf = entity.getCpf();
         birthDate = entity.getBirthDate();

@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.titanrig.titanrig.dto.OrderDTO;
 import com.titanrig.titanrig.dto.OrderItemDTO;
+import com.titanrig.titanrig.dto.ProductDTO;
 import com.titanrig.titanrig.entities.Order;
 import com.titanrig.titanrig.entities.OrderItem;
 import com.titanrig.titanrig.entities.OrderStatus;
@@ -17,6 +18,9 @@ import com.titanrig.titanrig.repositories.OrderItemRepository;
 import com.titanrig.titanrig.repositories.OrderRepository;
 import com.titanrig.titanrig.repositories.ProductRepository;
 import com.titanrig.titanrig.services.exceptions.ResourceNotFoundException;
+import com.titanrig.titanrig.services.exceptions.UnauthorizedException;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class OrderService {
@@ -65,5 +69,38 @@ public class OrderService {
         orderItemRepository.saveAll(order.getItems());
 
         return new OrderDTO();
+    }
+
+    @Transactional
+    public OrderDTO update(Long id, OrderDTO dto){
+        try {
+            Order entity = repository.getReferenceById(id);
+            Long authenticatedUserId = userService.getMe().getId();
+            
+            if (!entity.getClient().getId().equals(authenticatedUserId)){
+                throw new UnauthorizedException("Pedido não pertence ao usuário logado.");
+            }
+
+            if (!entity.getStatus().equals(OrderStatus.WAITING_PAYMENT)) {
+                throw new IllegalArgumentException("Pedido já processado. Não pode ser alterado.");
+            }
+            copyDtoToEntity(dto, entity);
+            entity = repository.save(entity);
+            return new OrderDTO(entity);
+        } catch (EntityNotFoundException  e) {
+            throw new ResourceNotFoundException("Pedido não encontrado: " + id);
+        }
+    }
+
+    private void copyDtoToEntity(OrderDTO dto, Order entity){
+        
+        entity.getItems().clear();
+        for (OrderItemDTO orderItemDto : dto.getItems()){
+            OrderItem orderItem = new OrderItem();
+            Product product = new Product();
+            product.setId(orderItemDto.getProductId());
+            orderItem.setQuantity(orderItemDto.getQuantity());
+            entity.getItems().add(orderItem);
+        }
     }
 }
