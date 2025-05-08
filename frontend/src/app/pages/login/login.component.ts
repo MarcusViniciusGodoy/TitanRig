@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
+import { CookieService } from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-login',
@@ -23,6 +24,13 @@ export class LoginComponent {
     if (this.lembrarDeMim) {
       body.set('remember-me', 'on');
     }
+
+    const csrfToken = this.cookieService.get('XSRF-TOKEN');
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'X-XSRF-TOKEN': csrfToken || '' 
+    });
 
     this.http.post('/login', body.toString(), {
       headers: new HttpHeaders({
