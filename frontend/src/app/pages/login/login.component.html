@@ -11,13 +11,29 @@
         <h2>Bem-vindo de volta!</h2>
         <p>Entre com sua conta</p>
   
-        <input type="email" placeholder="E-mail" />
-        <input type="password" placeholder="Senha" />
-  
-        <button>Entrar</button>
-        <a href="#">Esqueci minha senha</a>
+        <input
+        type="email"
+        placeholder="E-mail"
+        [(ngModel)]="email"
+        name="email"
+      />
+      <input
+        type="password"
+        placeholder="Senha"
+        [(ngModel)]="senha"
+        name="senha"
+      />
+
+      <div class="form-group">
+        <label for="remember-me" class="required">Lembrar de mim:</label>
+        <input
+          id="remember-me"
+          type="checkbox"
+          [(ngModel)]="lembrarDeMim"
+          name="rememberMe"
+          class="form-control"
+        />
       </div>
-    </div>
   
     <!-- Lado direito: redirecionamento para cadastro -->
     <div class="form-section" style="text-align: center;">

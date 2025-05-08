@@ -18,11 +18,13 @@ public class SecurityConfig {
                         req.anyRequest().authenticated();
                     })
                 .formLogin(form -> form.loginPage("/login")
-                        .defaultSuccessUrl("/")
+                        .defaultSuccessUrl("/home", true)
                         .permitAll())
                 .logout(logout -> logout
                         .logoutSuccessUrl("/login?logout")
                         .permitAll())
+                .rememberMe(rememberMe -> rememberMe.key("rememberMe")
+                .alwaysRemember(true))
                 .build();
     }
 }
