@@ -3,6 +3,7 @@ package com.titanrig.titanrig.services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,6 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.titanrig.titanrig.dto.RoleDTO;
@@ -23,6 +25,7 @@ import com.titanrig.titanrig.exceptions.ResourceNotFoundException;
 import com.titanrig.titanrig.projections.UserDetailsProjection;
 import com.titanrig.titanrig.repositories.RoleRepository;
 import com.titanrig.titanrig.repositories.UserRepository;
+import com.titanrig.titanrig.services.exceptions.DatabaseException;
 
 import jakarta.persistence.EntityNotFoundException;
 
@@ -91,6 +94,19 @@ public class UserService implements UserDetailsService{
         } catch (EntityNotFoundException e) {
             throw new ResourceNotFoundException("Id not found " + id);
         }
+    }
+
+    @Transactional(propagation = Propagation.SUPPORTS)
+    public void delete(Long id) {
+	    if (!repository.existsById(id)) {
+		    throw new ResourceNotFoundException("Resource not found");
+	    }
+	    try {
+        	repository.deleteById(id);    		
+	    }
+    	catch (DataIntegrityViolationException e) {
+        	throw new DatabaseException("Integrity violation");
+   	    }
     }
 
     private void copyDtoToEntity(UserDTO dto, User entity) {
