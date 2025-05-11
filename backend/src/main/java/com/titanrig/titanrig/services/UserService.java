@@ -8,21 +8,31 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.titanrig.titanrig.dto.RoleDTO;
 import com.titanrig.titanrig.dto.UserDTO;
+import com.titanrig.titanrig.dto.UserInsertDTO;
 import com.titanrig.titanrig.entities.Role;
 import com.titanrig.titanrig.entities.User;
 import com.titanrig.titanrig.projections.UserDetailsProjection;
+import com.titanrig.titanrig.repositories.RoleRepository;
 import com.titanrig.titanrig.repositories.UserRepository;
 
 @Service
 public class UserService implements UserDetailsService{
 
     @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
+    @Autowired
     private UserRepository repository;
+
+    @Autowired
+    private RoleRepository roleRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -56,5 +66,24 @@ public class UserService implements UserDetailsService{
     public UserDTO getMe(){
         User user = authenticated();
         return new UserDTO(user);
+    }
+
+    @Transactional
+    public UserDTO insert(UserInsertDTO dto) {
+        User entity = new User();
+       copyDtoToEntity(dto, entity);
+       entity.setPassword(passwordEncoder.encode(dto.getPassword()));
+       entity = repository.save(entity);
+       return new UserDTO(entity);
+    }
+
+    private void copyDtoToEntity(UserDTO dto, User entity) {
+        entity.setName(dto.getName());
+        entity.setPhone(dto.getPhone());
+        entity.setEmail(dto.getEmail());
+        entity.setCpf(dto.getCpf());
+        entity.setBirthDate(dto.getBirthDate());
+
+        entity.getRoles().clear();
     }
 }
