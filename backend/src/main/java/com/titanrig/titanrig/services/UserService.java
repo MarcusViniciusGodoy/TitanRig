@@ -16,11 +16,15 @@ import org.springframework.transaction.annotation.Transactional;
 import com.titanrig.titanrig.dto.RoleDTO;
 import com.titanrig.titanrig.dto.UserDTO;
 import com.titanrig.titanrig.dto.UserInsertDTO;
+import com.titanrig.titanrig.dto.UserUpdateDTO;
 import com.titanrig.titanrig.entities.Role;
 import com.titanrig.titanrig.entities.User;
+import com.titanrig.titanrig.exceptions.ResourceNotFoundException;
 import com.titanrig.titanrig.projections.UserDetailsProjection;
 import com.titanrig.titanrig.repositories.RoleRepository;
 import com.titanrig.titanrig.repositories.UserRepository;
+
+import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class UserService implements UserDetailsService{
@@ -75,6 +79,18 @@ public class UserService implements UserDetailsService{
        entity.setPassword(passwordEncoder.encode(dto.getPassword()));
        entity = repository.save(entity);
        return new UserDTO(entity);
+    }
+
+    @Transactional
+    public UserDTO update(Long id, UserUpdateDTO dto) {
+        try {
+            User entity = repository.getReferenceById(id);
+            copyDtoToEntity(dto, entity);
+            entity = repository.save(entity);
+            return new UserDTO(entity);
+        } catch (EntityNotFoundException e) {
+            throw new ResourceNotFoundException("Id not found " + id);
+        }
     }
 
     private void copyDtoToEntity(UserDTO dto, User entity) {
