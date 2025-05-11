@@ -2,43 +2,33 @@ package com.titanrig.titanrig.services.validation;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.servlet.HandlerMapping;
-
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.ConstraintValidator;
-import jakarta.validation.ConstraintValidatorContext;
 
 import com.titanrig.titanrig.controller.exceptions.FieldMessage;
-import com.titanrig.titanrig.dto.UserUpdateDTO;
+import com.titanrig.titanrig.dto.UserInsertDTO;
 import com.titanrig.titanrig.entities.User;
 import com.titanrig.titanrig.repositories.UserRepository;
 
-public class UserUpdateValidator implements ConstraintValidator<UserUpdateValid, UserUpdateDTO> {
-	
-	@Autowired
-	private HttpServletRequest request;
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 
+public class UserInsertValidator implements ConstraintValidator<UserInsertValid, UserInsertDTO> {
+	
 	@Autowired
 	private UserRepository repository;
 
 	@Override
-	public void initialize(UserUpdateValid ann) {
+	public void initialize(UserInsertValid ann) {
 	}
 
 	@Override
-	public boolean isValid(UserUpdateDTO dto, ConstraintValidatorContext context) {
+	public boolean isValid(UserInsertDTO dto, ConstraintValidatorContext context) {
 		
-		@SuppressWarnings("unchecked")
-		var uriVars = (Map<String, String>) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
-		long userId = Long.parseLong(uriVars.get("id"));
-
 		List<FieldMessage> list = new ArrayList<>();
 		
 		User user = repository.findUserByEmail(dto.getEmail());
-		if (user != null && userId != user.getId()){
+		if (user != null){
 			list.add(new FieldMessage("email", "Email já existe"));
 		}
 
@@ -49,4 +39,5 @@ public class UserUpdateValidator implements ConstraintValidator<UserUpdateValid,
 		}
 		return list.isEmpty();
 	}
+
 }

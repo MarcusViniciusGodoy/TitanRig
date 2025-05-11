@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -67,6 +68,10 @@ public class AuthorizationServerConfig {
 	@Autowired
 	private UserDetailsService userDetailsService;
 
+	@Autowired
+	@Qualifier("authPasswordEncoder")
+	private PasswordEncoder authPasswordEncoder;
+
 	@Bean
 	@Order(2)
 	public SecurityFilterChain asSecurityFilterChain(HttpSecurity http) throws Exception {
@@ -77,7 +82,7 @@ public class AuthorizationServerConfig {
 		http.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
 			.tokenEndpoint(tokenEndpoint -> tokenEndpoint
 				.accessTokenRequestConverter(new CustomPasswordAuthenticationConverter())
-				.authenticationProvider(new CustomPasswordAuthenticationProvider(authorizationService(), tokenGenerator(), userDetailsService, passwordEncoder())));
+				.authenticationProvider(new CustomPasswordAuthenticationProvider(authorizationService(), tokenGenerator(), userDetailsService, authPasswordEncoder())));
 
 		http.oauth2ResourceServer(oauth2ResourceServer -> oauth2ResourceServer.jwt(Customizer.withDefaults()));
 		// @formatter:on
@@ -95,24 +100,24 @@ public class AuthorizationServerConfig {
 		return new InMemoryOAuth2AuthorizationConsentService();
 	}
 
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
+	@Bean("authPasswordEncoder") // Renomeie o bean e especifique o nome
+	public PasswordEncoder authPasswordEncoder() {
+    	return new BCryptPasswordEncoder();
 	}
 
 	@Bean
 	public RegisteredClientRepository registeredClientRepository() {
 		// @formatter:off
 		RegisteredClient registeredClient = RegisteredClient
-			.withId(UUID.randomUUID().toString())
-			.clientId(clientId)
-			.clientSecret(passwordEncoder().encode(clientSecret))
-			.scope("read")
-			.scope("write")
-			.authorizationGrantType(new AuthorizationGrantType("password"))
-			.tokenSettings(tokenSettings())
-			.clientSettings(clientSettings())
-			.build();
+        .withId(UUID.randomUUID().toString())
+        .clientId(clientId)
+        .clientSecret(authPasswordEncoder().encode(clientSecret)) // Aqui está o uso
+        .scope("read")
+        .scope("write")
+        .authorizationGrantType(new AuthorizationGrantType("password"))
+        .tokenSettings(tokenSettings())
+        .clientSettings(clientSettings())
+        .build();
 		// @formatter:on
 
 		return new InMemoryRegisteredClientRepository(registeredClient);
