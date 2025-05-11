@@ -110,12 +110,17 @@ public class UserService implements UserDetailsService{
     }
 
     private void copyDtoToEntity(UserDTO dto, User entity) {
-        entity.setName(dto.getName());
-        entity.setPhone(dto.getPhone());
-        entity.setEmail(dto.getEmail());
-        entity.setCpf(dto.getCpf());
-        entity.setBirthDate(dto.getBirthDate());
+    entity.setName(dto.getName());
+    entity.setPhone(dto.getPhone());
+    entity.setEmail(dto.getEmail());
+    entity.setCpf(dto.getCpf());
+    entity.setBirthDate(dto.getBirthDate());
 
-        entity.getRoles().clear();
+    entity.getRoles().clear();
+    for (String roleName : dto.getRoles()) {
+        Role role = roleRepository.findByAuthority(roleName)
+            .orElseThrow(() -> new ResourceNotFoundException("Role not found: " + roleName));
+        entity.addRole(role);
     }
+}
 }
