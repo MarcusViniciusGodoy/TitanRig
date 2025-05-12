@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.titanrig.titanrig.dto.RoleDTO;
 import com.titanrig.titanrig.dto.UserDTO;
 import com.titanrig.titanrig.dto.UserInsertDTO;
 import com.titanrig.titanrig.dto.UserUpdateDTO;
@@ -31,9 +30,6 @@ import jakarta.persistence.EntityNotFoundException;
 
 @Service
 public class UserService implements UserDetailsService{
-
-    @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
 
     @Autowired
     private UserRepository repository;
@@ -77,9 +73,9 @@ public class UserService implements UserDetailsService{
 
     @Transactional
     public UserDTO insert(UserInsertDTO dto) {
-        User entity = new User();
+       User entity = new User();
        copyDtoToEntity(dto, entity);
-       entity.setPassword(passwordEncoder.encode(dto.getPassword()));
+       entity.setPassword(dto.getPassword());
        entity = repository.save(entity);
        return new UserDTO(entity);
     }
