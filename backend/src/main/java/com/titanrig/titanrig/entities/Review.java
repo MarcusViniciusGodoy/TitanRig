@@ -22,14 +22,19 @@ public class Review {
     private String text;
 
     @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
+
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
     public Review(){}
 
-    public Review(Long id, String text, User user) {
+    public Review(Long id, String text, Product product, User user) {
         this.id = id;
         this.text = text;
+        this.product = product;
         this.user = user;
     }
 
@@ -47,6 +52,14 @@ public class Review {
 
     public void setText(String text) {
         this.text = text;
+    }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
     public User getUser() {
