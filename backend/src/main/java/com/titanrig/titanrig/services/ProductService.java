@@ -81,7 +81,7 @@ public class ProductService {
 
     @Transactional(readOnly = true)
     public List<ReviewDTO> findByProductId(Long productId) {
-        List<Review> list = reviewRepository.findByMovieId(productId);
+        List<Review> list = reviewRepository.findByProductId(productId);
         return list.stream().map(ReviewDTO::new).toList();
     }
 

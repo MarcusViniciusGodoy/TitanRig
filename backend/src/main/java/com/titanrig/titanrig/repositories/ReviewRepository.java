@@ -8,5 +8,5 @@ import com.titanrig.titanrig.entities.Review;
 
 public interface ReviewRepository extends JpaRepository<Review, Long>{
 
-    List<Review> findByMovieId(Long product_id);
+    List<Review> findByProductId(Long product_id);
 }

@@ -1,6 +1,7 @@
 package com.titanrig.titanrig.controller;
 
 import java.net.URI;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.titanrig.titanrig.dto.ProductDTO;
+import com.titanrig.titanrig.dto.ReviewDTO;
 import com.titanrig.titanrig.services.ProductService;
 
 import jakarta.validation.Valid;
@@ -62,5 +64,12 @@ public class ProductController {
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{productId}/reviews")
+    @PreAuthorize("hasAnyRole('ROLE_OPERATOR')")
+    public ResponseEntity<List<ReviewDTO>> findReviewsByProduct(@PathVariable Long productId) {
+        List<ReviewDTO> list = service.findByProductId(productId);
+        return ResponseEntity.ok(list);
     }
 }
