@@ -1,5 +1,6 @@
 package com.titanrig.titanrig.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +13,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.titanrig.titanrig.dto.CategoryDTO;
 import com.titanrig.titanrig.dto.ProductDTO;
+import com.titanrig.titanrig.dto.ReviewDTO;
 import com.titanrig.titanrig.entities.Category;
 import com.titanrig.titanrig.entities.Product;
+import com.titanrig.titanrig.entities.Review;
 import com.titanrig.titanrig.exceptions.ResourceNotFoundException;
 import com.titanrig.titanrig.repositories.ProductRepository;
+import com.titanrig.titanrig.repositories.ReviewRepository;
 import com.titanrig.titanrig.services.exceptions.DatabaseException;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -25,6 +29,9 @@ public class ProductService {
 
     @Autowired
     private ProductRepository repository;
+
+    @Autowired
+    private ReviewRepository reviewRepository;
 
     @Transactional(readOnly = true)
     public Page<ProductDTO> findAllPaged(Pageable pageable){
@@ -70,6 +77,12 @@ public class ProductService {
         catch (DataIntegrityViolationException e) {
             throw new DatabaseException("Falha de integridade referencial.");
         }
+    }
+
+    @Transactional(readOnly = true)
+    public List<ReviewDTO> findByProductId(Long productId) {
+        List<Review> list = reviewRepository.findByMovieId(productId);
+        return list.stream().map(ReviewDTO::new).toList();
     }
 
     private void copyDtoToEntity(ProductDTO dto, Product entity) {
