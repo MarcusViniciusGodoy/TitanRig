@@ -1,6 +1,7 @@
 package com.titanrig.titanrig.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -13,6 +14,12 @@ import com.titanrig.titanrig.services.exceptions.ForbiddenException;
 
 @Service
 public class AuthService {
+
+	@Value("${email.password-recover.token.minutes}")
+    private Long tokenMinutes;
+
+    @Value("${email.password-recover.uri}")
+    private Long recoverUri;
 
     @Autowired
     private UserService userService;
