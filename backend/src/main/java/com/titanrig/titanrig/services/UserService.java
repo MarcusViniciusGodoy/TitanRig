@@ -1,6 +1,7 @@
 package com.titanrig.titanrig.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -42,6 +43,13 @@ public class UserService implements UserDetailsService{
     public Page<UserDTO> findAllPaged(Pageable pageable){
         Page<User> list = repository.findAll(pageable);
         return list.map(x -> new UserDTO(x));
+    }
+
+    @Transactional(readOnly = true)
+    public UserDTO findById(Long id) {
+        Optional<User> obj = repository.findById(id);
+        User entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
+        return new UserDTO(entity);
     }
 
     @Override
