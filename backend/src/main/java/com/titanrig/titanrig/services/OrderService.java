@@ -74,7 +74,7 @@ public class OrderService {
     public OrderDTO update(Long id, OrderDTO dto){
         try {
             Order entity = repository.getReferenceById(id);
-            Long authenticatedUserId = userService.getMe().getId();
+            Long authenticatedUserId = userService.findMe().getId();
             
             if (!entity.getClient().getId().equals(authenticatedUserId)){
                 throw new UnauthorizedException("Pedido não pertence ao usuário logado.");
