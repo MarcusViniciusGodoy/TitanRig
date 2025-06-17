@@ -82,9 +82,9 @@ public class ProductServiceIT {
         Page<ProductDTO> result = service.findAllPaged(pageRequest);
 
         Assertions.assertFalse(result.isEmpty());
-        Assertions.assertEquals("Macbook Pro", result.getContent().get(0).getName());
-        Assertions.assertEquals("PC Gamer", result.getContent().get(1).getName());
-        Assertions.assertEquals("PC Gamer Alfa", result.getContent().get(2).getName());
+        Assertions.assertEquals("Aorus", result.getContent().get(0).getName());
+        Assertions.assertEquals("MAtrix", result.getContent().get(1).getName());
+        Assertions.assertEquals("Corsair", result.getContent().get(2).getName());
     }
 }
 
