@@ -24,6 +24,7 @@ import com.titanrig.titanrig.entities.Category;
 import com.titanrig.titanrig.entities.Product;
 import com.titanrig.titanrig.repositories.CategoryRepository;
 import com.titanrig.titanrig.repositories.ProductRepository;
+import com.titanrig.titanrig.services.exceptions.DatabaseException;
 import com.titanrig.titanrig.exceptions.ResourceNotFoundException;
 import com.titanrig.titanrig.tests.Factory;
 
@@ -117,4 +118,27 @@ public class ProductServiceTests {
         Mockito.verify(repository, Mockito.times(1)).findAll(pageable);
     }
 
+    @Test
+    public void deleteShouldThrowDatabaseExceptionWhenDependentId(){
+
+        Assertions.assertThrows(DatabaseException.class, () -> {
+            service.delete(dependentId);
+        });
+    }
+
+    @Test
+    public void deleteShouldThrowResourceNotFoundExceptionWhenIdDoesNotFoundExist(){
+        
+        Assertions.assertThrows(ResourceNotFoundException.class, () -> {
+            service.delete(nonExistingId);
+        });
+    }
+
+    @Test
+    public void deleteShouldDoNothingWhenIdExists(){
+        
+        Assertions.assertDoesNotThrow(() -> {
+            service.delete(existingId);
+        });
+    }
 }
