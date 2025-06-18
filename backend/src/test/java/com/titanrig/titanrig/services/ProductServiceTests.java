@@ -14,7 +14,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import com.titanrig.titanrig.dto.ProductDTO;
@@ -103,4 +105,16 @@ public class ProductServiceTests {
             service.findById(nonExistingId);
         });
     }
+
+    @Test
+    public void findAllPagedShouldReturnPage(){
+        
+        Pageable pageable = PageRequest.of(0, 10);
+
+        Page<ProductDTO> result = service.findAllPaged(pageable);
+
+        Assertions.assertNotNull(result);
+        Mockito.verify(repository, Mockito.times(1)).findAll(pageable);
+    }
+
 }
