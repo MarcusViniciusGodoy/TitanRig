@@ -4,6 +4,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +13,13 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.transaction.annotation.Transactional;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.titanrig.titanrig.dto.ProductDTO;
+import com.titanrig.titanrig.tests.Factory;
 import com.titanrig.titanrig.tests.TokenUtil;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-import jakarta.transaction.Transactional;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -63,5 +66,27 @@ public class ProductResourceIT {
 		result.andExpect(jsonPath("$.content[0].name").value("Aorus"));
 		result.andExpect(jsonPath("$.content[1].name").value("TUF gamer"));
 		result.andExpect(jsonPath("$.content[2].name").value("MAtrix"));		
+	}
+
+    @Test
+	public void updateShouldReturnProductDTOWhenIdExists() throws Exception {
+		
+		ProductDTO productDTO = Factory.createProductDTO();
+		String jsonBody = objectMapper.writeValueAsString(productDTO);
+		
+		String expectedName = productDTO.getName();
+		String expectedDescription = productDTO.getDescription();
+		
+		ResultActions result = 
+				mockMvc.perform(put("/products/{id}", existingId)
+					.header("Authorization", "Bearer " + bearerToken)	
+					.content(jsonBody)
+					.contentType(MediaType.APPLICATION_JSON)
+					.accept(MediaType.APPLICATION_JSON));
+		
+		result.andExpect(status().isOk());
+		result.andExpect(jsonPath("$.id").value(existingId));
+		result.andExpect(jsonPath("$.name").value(expectedName));
+		result.andExpect(jsonPath("$.description").value(expectedDescription));
 	}
 }

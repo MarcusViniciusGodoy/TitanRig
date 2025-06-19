@@ -26,6 +26,7 @@ public class TokenUtil {
 
 		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
 		params.add("grant_type", "password");
+		params.add("client_id", clientId);
 		params.add("username", username);
 		params.add("password", password);
 
