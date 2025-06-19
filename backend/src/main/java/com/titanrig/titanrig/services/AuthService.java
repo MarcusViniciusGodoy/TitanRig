@@ -30,7 +30,7 @@ public class AuthService {
     private Long tokenMinutes;
 
     @Value("${email.password-recover.uri}")
-    private Long recoverUri;
+    private String recoverUri;
 
     @Autowired
     private PasswordEncoder passwordEncoder;

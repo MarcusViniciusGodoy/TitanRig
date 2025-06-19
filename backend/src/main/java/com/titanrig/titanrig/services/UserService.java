@@ -3,6 +3,7 @@ package com.titanrig.titanrig.services;
 import java.util.List;
 import java.util.Optional;
 
+import org.hibernate.validator.internal.util.stereotypes.Lazy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -40,6 +41,7 @@ public class UserService implements UserDetailsService{
     private RoleRepository roleRepository;
 
     @Autowired
+    @Lazy
     private AuthService authService;
 
     @Transactional(readOnly = true)
