@@ -26,6 +26,9 @@ public class ProductControllerIT {
 	
 	@Autowired
 	private TokenUtil tokenUtil;
+
+	private long existingId;
+	private long nonExistingId;
 	
 	private String operatorUsername;
 	private String operatorPassword;
@@ -39,6 +42,16 @@ public class ProductControllerIT {
 		operatorPassword = "123456";
 		adminUsername = "bob@gmail.com";
 		adminPassword = "123456";
+	}
+
+	@Test
+	public void findByIdShouldReturnUnauthorizedWhenNoTokenGiven() throws Exception {
+
+		ResultActions result =
+				mockMvc.perform(get("/products/{id}", existingId)
+					.contentType(MediaType.APPLICATION_JSON));
+
+		result.andExpect(status().isUnauthorized());
 	}
 }
 
