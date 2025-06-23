@@ -1,6 +1,7 @@
 package com.titanrig.titanrig.controllers;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -83,5 +84,35 @@ public class ReviewControllerIT {
 
 		result.andExpect(status().isForbidden());
 	}
-	
+
+	@Test
+	public void insertShouldInsertReviewWhenMemberAuthenticatedAndValidData() throws Exception {
+		
+		String accessToken = tokenUtil.obtainAccessToken(mockMvc, memberUsername, memberPassword);
+		
+		String reviewText = "Gostei do produto!";
+		long productId = 1L;
+		
+		ReviewDTO reviewDTO = new ReviewDTO();
+		reviewDTO.setText(reviewText);
+		reviewDTO.setProductId(productId);
+
+		String jsonBody = objectMapper.writeValueAsString(reviewDTO);
+		
+		ResultActions result =
+				mockMvc.perform(post("/reviews")
+						.header("Authorization", "Bearer " + accessToken)
+						.content(jsonBody)
+						.contentType(MediaType.APPLICATION_JSON)
+						.accept(MediaType.APPLICATION_JSON));
+		
+		result.andExpect(status().isCreated());
+		
+		result.andExpect(jsonPath("$.id").isNotEmpty());
+		result.andExpect(jsonPath("$.text").value(reviewText));
+		result.andExpect(jsonPath("$.productId").value(productId));
+		result.andExpect(jsonPath("$.userId").isNotEmpty());
+		result.andExpect(jsonPath("$.userName").isNotEmpty());
+		result.andExpect(jsonPath("$.userEmail").value(memberUsername));
+	}
 }
