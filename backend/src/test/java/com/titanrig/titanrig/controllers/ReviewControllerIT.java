@@ -62,4 +62,26 @@ public class ReviewControllerIT {
 
 		result.andExpect(status().isUnauthorized());
 	}
+
+	@Test
+	public void insertShouldReturnForbiddenWhenVisitorAuthenticated() throws Exception {
+	
+		String accessToken = tokenUtil.obtainAccessToken(mockMvc, visitorUsername, visitorPassword);
+		
+		ReviewDTO reviewDTO = new ReviewDTO();
+		reviewDTO.setText("Gostei do produto!");
+		reviewDTO.setProductId(1L);
+
+		String jsonBody = objectMapper.writeValueAsString(reviewDTO);
+		
+		ResultActions result =
+				mockMvc.perform(post("/reviews")
+						.header("Authorization", "Bearer " + accessToken)
+						.content(jsonBody)
+						.contentType(MediaType.APPLICATION_JSON)
+						.accept(MediaType.APPLICATION_JSON));
+
+		result.andExpect(status().isForbidden());
+	}
+	
 }

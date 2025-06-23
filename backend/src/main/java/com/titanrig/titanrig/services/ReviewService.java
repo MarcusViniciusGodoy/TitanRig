@@ -30,7 +30,7 @@ public class ReviewService {
 
         User user = authService.authenticated();
         
-        Product product = productRepository.findById(dto.getMovieId()).orElseThrow(() -> new ResourceNotFoundException("Movie not found"));
+        Product product = productRepository.findById(dto.getProductId()).orElseThrow(() -> new ResourceNotFoundException("Product not found"));
 
         Review review = new Review();
         review.setText(dto.getText());

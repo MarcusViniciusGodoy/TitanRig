@@ -9,7 +9,7 @@ public class ReviewInsertDTO {
     private String text;
 
     @NotNull
-    private Long movieId;
+    private Long productId;
 
     public String getText() {
         return text;
@@ -19,12 +19,12 @@ public class ReviewInsertDTO {
         this.text = text;
     }
 
-    public Long getMovieId() {
-        return movieId;
+    public Long getProductId() {
+        return productId;
     }
 
-    public void setMovieId(Long movieId) {
-        this.movieId = movieId;
+    public void setProductId(Long productId) {
+        this.productId = productId;
     }
 }
 
