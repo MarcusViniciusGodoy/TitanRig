@@ -115,4 +115,25 @@ public class ReviewControllerIT {
 		result.andExpect(jsonPath("$.userName").isNotEmpty());
 		result.andExpect(jsonPath("$.userEmail").value(memberUsername));
 	}
+
+	@Test
+	public void insertShouldReturnUnproccessableEntityWhenMemberAuthenticatedAndInvalidData() throws Exception {
+		
+		String accessToken = tokenUtil.obtainAccessToken(mockMvc, memberUsername, memberPassword);
+		
+		ReviewDTO reviewDTO = new ReviewDTO();
+		reviewDTO.setText("        ");
+		reviewDTO.setProductId(1L);
+
+		String jsonBody = objectMapper.writeValueAsString(reviewDTO);
+
+		ResultActions result =
+				mockMvc.perform(post("/reviews")
+						.header("Authorization", "Bearer " + accessToken)
+						.content(jsonBody)
+						.contentType(MediaType.APPLICATION_JSON)
+						.accept(MediaType.APPLICATION_JSON));
+
+		result.andExpect(status().isUnprocessableEntity());
+	}
 }
