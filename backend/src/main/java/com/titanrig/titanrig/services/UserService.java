@@ -2,8 +2,6 @@ package com.titanrig.titanrig.services;
 
 import java.util.List;
 import java.util.Optional;
-
-import org.hibernate.validator.internal.util.stereotypes.Lazy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
@@ -13,11 +11,13 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.titanrig.titanrig.dto.RoleDTO;
 import com.titanrig.titanrig.dto.UserDTO;
 import com.titanrig.titanrig.dto.UserInsertDTO;
 import com.titanrig.titanrig.dto.UserUpdateDTO;
@@ -35,13 +35,15 @@ import jakarta.persistence.EntityNotFoundException;
 public class UserService implements UserDetailsService{
 
     @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
     private UserRepository repository;
 
     @Autowired
     private RoleRepository roleRepository;
 
     @Autowired
-    @Lazy
     private AuthService authService;
 
     @Transactional(readOnly = true)
@@ -57,21 +59,10 @@ public class UserService implements UserDetailsService{
         return new UserDTO(entity);
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        
-        List<UserDetailsProjection> result = repository.searchUserAndRolesByEmail(username);
-        if (result.size() == 0){
-            throw new UsernameNotFoundException("User not found");
-        }
-        User user = new User();
-        user.setEmail(result.get(0).getUsername());
-        user.setPassword(result.get(0).getPassword());
-
-        for (UserDetailsProjection projection : result){
-            user.addRole(new Role(projection.getRoleId(), projection.getAuthority()));
-        }
-        return user;
+    @Transactional(readOnly = true)
+    public UserDTO findMe() {
+        User entity = authService.authenticated();
+        return new UserDTO(entity);
     }
 
     protected User authenticated(){
@@ -85,21 +76,18 @@ public class UserService implements UserDetailsService{
         }  
     }
 
-    @Transactional(readOnly = true)
-    public UserDTO findMe() {
-        User entity = authService.authenticated();
-        return new UserDTO(entity);
-    }
-
     @Transactional
     public UserDTO insert(UserInsertDTO dto) {
        User entity = new User();
        copyDtoToEntity(dto, entity);
-       entity.setPassword(dto.getPassword());
+       entity.getRoles().clear();
+       Role role = roleRepository.findByAuthority("ROLE_CLIENT");
+       entity.getRoles().add(role);
+       entity.setPassword(passwordEncoder.encode(dto.getPassword()));
        entity = repository.save(entity);
        return new UserDTO(entity);
     }
-
+    
     @Transactional
     public UserDTO update(Long id, UserUpdateDTO dto) {
         try {
@@ -126,17 +114,33 @@ public class UserService implements UserDetailsService{
     }
 
     private void copyDtoToEntity(UserDTO dto, User entity) {
-    entity.setName(dto.getName());
-    entity.setPhone(dto.getPhone());
-    entity.setEmail(dto.getEmail());
-    entity.setCpf(dto.getCpf());
-    entity.setBirthDate(dto.getBirthDate());
+        entity.setName(dto.getName());
+        entity.setPhone(dto.getPhone());
+        entity.setEmail(dto.getEmail());
+        entity.setCpf(dto.getCpf());
+        entity.setBirthDate(dto.getBirthDate());
 
-    entity.getRoles().clear();
-    for (String roleName : dto.getRoles()) {
-        Role role = roleRepository.findByAuthority(roleName)
-            .orElseThrow(() -> new ResourceNotFoundException("Role not found: " + roleName));
-        entity.addRole(role);
+        entity.getRoles().clear();
+        for (RoleDTO roleDto : dto.getRoles()){
+            Role role = roleRepository.getOne(roleDto.getId());
+            entity.getRoles().add(role);
+        }
     }
-}
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        
+        List<UserDetailsProjection> result = repository.searchUserAndRolesByEmail(username);
+        if (result.size() == 0){
+            throw new UsernameNotFoundException("User not found");
+        }
+        User user = new User();
+        user.setEmail(result.get(0).getUsername());
+        user.setPassword(result.get(0).getPassword());
+
+        for (UserDetailsProjection projection : result){
+            user.addRole(new Role(projection.getRoleId(), projection.getAuthority()));
+        }
+        return user;
+    }
 }

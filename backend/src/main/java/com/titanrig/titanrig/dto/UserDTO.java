@@ -2,10 +2,9 @@ package com.titanrig.titanrig.dto;
 
 import java.io.Serializable;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
-import org.springframework.security.core.GrantedAuthority;
 
 import com.titanrig.titanrig.entities.User;
 
@@ -35,7 +34,7 @@ public class UserDTO implements Serializable{
     private String cpf;
     private LocalDate birthDate;
 
-    private List<String> roles = new ArrayList<>();
+    Set<RoleDTO> roles = new HashSet<>();
 
     public UserDTO(User entity){
         id = entity.getId();
@@ -44,8 +43,6 @@ public class UserDTO implements Serializable{
         email = entity.getEmail();
         cpf = entity.getCpf();
         birthDate = entity.getBirthDate();
-        for (GrantedAuthority role : entity.getRoles()){
-            roles.add(role.getAuthority());
-        }
+        entity.getRoles().forEach(role -> this.roles.add(new RoleDTO(role)));
     }
 }

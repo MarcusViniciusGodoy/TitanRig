@@ -10,6 +10,6 @@ import com.titanrig.titanrig.entities.Role;
 @Repository
 public interface RoleRepository extends JpaRepository<Role, Long> {
 
-    Optional<Role> findByAuthority(String authority);
+    Role findByAuthority(String authority);
 
 }

@@ -36,7 +36,7 @@ public class OrderService {
     @Autowired
     private UserService userService;
     
-    @Autowired
+   /*  @Autowired
     private AuthService authService;
 
     @Transactional(readOnly = true)
@@ -45,7 +45,7 @@ public class OrderService {
                 () -> new ResourceNotFoundException("Recurso não encontrado"));
         authService.validateSelfOrAdmin(order.getClient().getId());
         return new OrderDTO(order);
-    }
+    }*/
 
     @Transactional
     public OrderDTO insert(OrderDTO dto){

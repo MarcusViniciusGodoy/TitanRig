@@ -67,7 +67,7 @@ public class ProductController {
     }
 
     @GetMapping("/{productId}/reviews")
-    @PreAuthorize("hasAnyRole('ROLE_OPERATOR')")
+    @PreAuthorize("hasAnyRole('ROLE_CLIENT')")
     public ResponseEntity<List<ReviewDTO>> findReviewsByProduct(@PathVariable Long productId) {
         List<ReviewDTO> list = service.findByProductId(productId);
         return ResponseEntity.ok(list);

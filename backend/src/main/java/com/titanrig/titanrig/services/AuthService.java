@@ -3,7 +3,6 @@ package com.titanrig.titanrig.services;
 import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -13,14 +12,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.titanrig.titanrig.dto.EmailDTO;
 import com.titanrig.titanrig.dto.NewPasswordDTO;
 import com.titanrig.titanrig.entities.PasswordRecover;
 import com.titanrig.titanrig.entities.User;
 import com.titanrig.titanrig.repositories.PasswordRecoverRepository;
 import com.titanrig.titanrig.repositories.UserRepository;
-import com.titanrig.titanrig.services.exceptions.ForbiddenException;
 import com.titanrig.titanrig.services.exceptions.ResourceNotFoundException;
 
 @Service
@@ -39,20 +36,10 @@ public class AuthService {
     private PasswordRecoverRepository passwordRecoverRepository;
 
     @Autowired
-    private UserService userService;
-
-    @Autowired
 	private UserRepository userRepository;
 
     @Autowired
     private EmailService emailService;
-
-    public void validateSelfOrAdmin(long userId){
-        User me = userService.authenticated();
-        if (!me.hasRole("ROLE_ADMIN") && !me.getId().equals(userId)){
-            throw new ForbiddenException("Access denied");
-        }
-    }
 
     @Transactional
     public void createRecoverToken(EmailDTO body) {
