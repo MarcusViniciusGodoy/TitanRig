@@ -30,9 +30,9 @@ public class ProductServiceIT {
 
     @BeforeEach
     void setUp() throws Exception{
-        existingId = 1L;
+        existingId = 4L;
         nonExistingId = 1000L;
-        countTotalProducts = 25L;
+        countTotalProducts = 5L;
     }
 
     @Test
@@ -83,8 +83,8 @@ public class ProductServiceIT {
 
         Assertions.assertFalse(result.isEmpty());
         Assertions.assertEquals("Aorus", result.getContent().get(0).getName());
-        Assertions.assertEquals("MAtrix", result.getContent().get(1).getName());
-        Assertions.assertEquals("Corsair", result.getContent().get(2).getName());
+        Assertions.assertEquals("Corsair", result.getContent().get(1).getName());
+        Assertions.assertEquals("MAtrix", result.getContent().get(2).getName());
     }
 }
 
