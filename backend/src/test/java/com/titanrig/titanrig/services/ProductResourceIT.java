@@ -45,7 +45,7 @@ public class ProductResourceIT {
 		existingId = 1L;
 		countTotalProducts = 5L;
 		
-		username = "maria@gmail.com";
+		username = "leticia@gmail.com";
 		password = "123456";
 		
 		bearerToken = tokenUtil.obtainAccessToken(mockMvc, username, password);
