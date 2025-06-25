@@ -16,15 +16,11 @@ public class ProductRepositoryTests {
     @Autowired
     private ProductRepository repository;
 
-    private long existingId;
     private long countTotalProducts;
-    private long nonExistingId;
 
     @BeforeEach
     void setUp() throws Exception{
-        existingId = 1L;
-        countTotalProducts = 25L;
-        nonExistingId = 100L;
+        countTotalProducts = 5L;
     }
 
     @Test
