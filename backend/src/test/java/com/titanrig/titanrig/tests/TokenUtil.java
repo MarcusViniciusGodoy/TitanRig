@@ -29,6 +29,7 @@ public class TokenUtil {
 		params.add("client_id", clientId);
 		params.add("username", username);
 		params.add("password", password);
+		params.add("scope", "read write");
 
 		ResultActions result = mockMvc
 				.perform(post("/oauth2/token")
