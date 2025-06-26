@@ -35,16 +35,12 @@ public class ReviewControllerIT {
 
 	private String clientUsername;
 	private String clientPassword;
-	private String memberUsername;
-	private String memberPassword;
 	
 	@BeforeEach
 	void setUp() throws Exception {
 		
 		clientUsername = "alex@gmail.com";
 		clientPassword = "123456";
-		memberUsername = "ana@gmail.com";
-		memberPassword = "123456";
 	}
 
     @Test
@@ -66,7 +62,7 @@ public class ReviewControllerIT {
 	}
 
 	@Test
-	public void insertShouldInsertReviewWhenMemberAuthenticatedAndValidData() throws Exception {
+	public void insertShouldInsertReviewWhenClientAuthenticatedAndValidData() throws Exception {
 		
 		String accessToken = tokenUtil.obtainAccessToken(mockMvc, clientUsername, clientPassword);
 		
@@ -97,23 +93,23 @@ public class ReviewControllerIT {
 	}
 
 	@Test
-	public void insertShouldReturnUnproccessableEntityWhenMemberAuthenticatedAndInvalidData() throws Exception {
-		
-		String accessToken = tokenUtil.obtainAccessToken(mockMvc, memberUsername, memberPassword);
-		
-		ReviewDTO reviewDTO = new ReviewDTO();
-		reviewDTO.setText("        ");
-		reviewDTO.setProductId(1L);
+	public void insertShouldReturnUnproccessableEntityWhenClientAuthenticatedAndInvalidData() throws Exception {
 
-		String jsonBody = objectMapper.writeValueAsString(reviewDTO);
+    	String accessToken = tokenUtil.obtainAccessToken(mockMvc, clientUsername, clientPassword);
 
-		ResultActions result =
-				mockMvc.perform(post("/reviews")
-						.header("Authorization", "Bearer " + accessToken)
-						.content(jsonBody)
-						.contentType(MediaType.APPLICATION_JSON)
-						.accept(MediaType.APPLICATION_JSON));
+    	ReviewInsertDTO reviewInsertDTO = new ReviewInsertDTO();
+    	reviewInsertDTO.setText("     "); 
+    	reviewInsertDTO.setProductId(1L); 
 
-		result.andExpect(status().isUnprocessableEntity());
+    	String jsonBody = objectMapper.writeValueAsString(reviewInsertDTO);
+
+    	ResultActions result =
+            	mockMvc.perform(post("/reviews")
+                    	.header("Authorization", "Bearer " + accessToken)
+                    	.content(jsonBody)
+                    	.contentType(MediaType.APPLICATION_JSON)
+                    	.accept(MediaType.APPLICATION_JSON));
+
+    	result.andExpect(status().isUnprocessableEntity());
 	}
 }
