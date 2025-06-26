@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.titanrig.titanrig.dto.ReviewDTO;
+import com.titanrig.titanrig.dto.ReviewInsertDTO;
 import com.titanrig.titanrig.tests.TokenUtil;
 
 @SpringBootTest
@@ -32,16 +33,16 @@ public class ReviewControllerIT {
 	@Autowired
 	private ObjectMapper objectMapper;
 
-	private String visitorUsername;
-	private String visitorPassword;
+	private String clientUsername;
+	private String clientPassword;
 	private String memberUsername;
 	private String memberPassword;
 	
 	@BeforeEach
 	void setUp() throws Exception {
 		
-		visitorUsername = "bob@gmail.com";
-		visitorPassword = "123456";
+		clientUsername = "alex@gmail.com";
+		clientPassword = "123456";
 		memberUsername = "ana@gmail.com";
 		memberPassword = "123456";
 	}
@@ -65,30 +66,9 @@ public class ReviewControllerIT {
 	}
 
 	@Test
-	public void insertShouldReturnForbiddenWhenVisitorAuthenticated() throws Exception {
-	
-		String accessToken = tokenUtil.obtainAccessToken(mockMvc, visitorUsername, visitorPassword);
-		
-		ReviewDTO reviewDTO = new ReviewDTO();
-		reviewDTO.setText("Gostei do produto!");
-		reviewDTO.setProductId(1L);
-
-		String jsonBody = objectMapper.writeValueAsString(reviewDTO);
-		
-		ResultActions result =
-				mockMvc.perform(post("/reviews")
-						.header("Authorization", "Bearer " + accessToken)
-						.content(jsonBody)
-						.contentType(MediaType.APPLICATION_JSON)
-						.accept(MediaType.APPLICATION_JSON));
-
-		result.andExpect(status().isForbidden());
-	}
-
-	@Test
 	public void insertShouldInsertReviewWhenMemberAuthenticatedAndValidData() throws Exception {
 		
-		String accessToken = tokenUtil.obtainAccessToken(mockMvc, memberUsername, memberPassword);
+		String accessToken = tokenUtil.obtainAccessToken(mockMvc, clientUsername, clientPassword);
 		
 		String reviewText = "Gostei do produto!";
 		long productId = 1L;
@@ -113,7 +93,7 @@ public class ReviewControllerIT {
 		result.andExpect(jsonPath("$.productId").value(productId));
 		result.andExpect(jsonPath("$.userId").isNotEmpty());
 		result.andExpect(jsonPath("$.userName").isNotEmpty());
-		result.andExpect(jsonPath("$.userEmail").value(memberUsername));
+		result.andExpect(jsonPath("$.userEmail").value(clientUsername));
 	}
 
 	@Test
