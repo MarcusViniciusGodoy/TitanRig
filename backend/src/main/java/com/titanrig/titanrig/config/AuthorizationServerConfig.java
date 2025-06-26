@@ -51,6 +51,7 @@ import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
 
+
 @Configuration
 public class AuthorizationServerConfig {
 
@@ -73,7 +74,7 @@ public class AuthorizationServerConfig {
 	@Order(2)
 	public SecurityFilterChain asSecurityFilterChain(HttpSecurity http) throws Exception {
 
-		http.securityMatcher("/**").with(OAuth2AuthorizationServerConfigurer.authorizationServer(), Customizer.withDefaults());
+		http.securityMatcher("/oauth2/**").with(OAuth2AuthorizationServerConfigurer.authorizationServer(), Customizer.withDefaults());
 
 		// @formatter:off
 		http.getConfigurer(OAuth2AuthorizationServerConfigurer.class)

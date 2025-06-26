@@ -10,17 +10,19 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
-import org.springframework.security.config.Customizer;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.HttpStatusEntryPoint;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+
 
 @Configuration
 @EnableWebSecurity
@@ -44,10 +46,24 @@ public class SecurityConfig {
 	@Order(3)
 	public SecurityFilterChain rsSecurityFilterChain(HttpSecurity http) throws Exception {
 		http.csrf(csrf -> csrf.disable());
-		http.authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll());
-		http.oauth2ResourceServer(oauth2ResourceServer -> oauth2ResourceServer.jwt(Customizer.withDefaults()));
 		http.cors(cors -> cors.configurationSource(corsConfigurationSource()));
-		return http.build();
+		http.authorizeHttpRequests(authorize -> authorize
+        .requestMatchers("/oauth2/token", "/h2-console/**").permitAll()
+        .requestMatchers("/products/**", "/reviews/**").authenticated()
+        .anyRequest().authenticated()
+    	);
+
+    	http.oauth2ResourceServer(oauth2 -> oauth2
+        	.jwt(jwt -> jwt
+          		.jwtAuthenticationConverter(jwtAuthenticationConverter())
+        	)
+    	);
+
+    	http.exceptionHandling(ex -> ex
+        	.authenticationEntryPoint(new HttpStatusEntryPoint(HttpStatus.UNAUTHORIZED))
+    	);
+
+    	return http.build();
 	}
 
 	@Bean
