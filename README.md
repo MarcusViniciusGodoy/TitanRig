@@ -24,6 +24,9 @@ O sistema implementa autenticação segura com JWT e OAuth2, além de oferecer u
 
 ![Logo](https://github.com/MarcusViniciusGodoy/assets/blob/main/Principal.png)
 
+## Testes Camadas
+![testes](https://github.com/MarcusViniciusGodoy/assets/blob/main/testes.png)
+
 
 ### Pré-requisitos
  Para executar este projeto, é necessário ter:
