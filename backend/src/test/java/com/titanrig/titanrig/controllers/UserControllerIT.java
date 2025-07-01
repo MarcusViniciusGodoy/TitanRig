@@ -68,4 +68,12 @@ public class UserControllerIT {
 
         result.andExpect(status().isNoContent());
     }
+
+    @Test
+    public void findMeShouldReturnUnauthorizedWhenNotAuthenticated() throws Exception {
+        ResultActions result = mockMvc.perform(get("/users/me")
+                .accept(MediaType.APPLICATION_JSON));
+
+        result.andExpect(status().isUnauthorized());
+    }
 }
