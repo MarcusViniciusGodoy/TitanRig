@@ -59,6 +59,14 @@ public class UserControllerIT {
     }
 
     @Test
+    public void findMeShouldReturnUnauthorizedWhenNotAuthenticated() throws Exception {
+        ResultActions result = mockMvc.perform(get("/users/me")
+                .accept(MediaType.APPLICATION_JSON));
+
+        result.andExpect(status().isUnauthorized());
+    }
+
+    @Test
     public void deleteShouldReturnNoContentWhenIdExists() throws Exception {
         String token = tokenUtil.obtainAccessToken(mockMvc, adminUsername, adminPassword);
 
@@ -70,10 +78,13 @@ public class UserControllerIT {
     }
 
     @Test
-    public void findMeShouldReturnUnauthorizedWhenNotAuthenticated() throws Exception {
-        ResultActions result = mockMvc.perform(get("/users/me")
+    public void findAllShouldReturnForbiddenWhenClientAuthenticated() throws Exception {
+        String token = tokenUtil.obtainAccessToken(mockMvc, clientUsername, clientPassword);
+
+        ResultActions result = mockMvc.perform(get("/users")
+                .header("Authorization", "Bearer " + token)
                 .accept(MediaType.APPLICATION_JSON));
 
-        result.andExpect(status().isUnauthorized());
+        result.andExpect(status().isForbidden());
     }
 }
