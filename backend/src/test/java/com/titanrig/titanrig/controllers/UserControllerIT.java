@@ -13,6 +13,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.titanrig.titanrig.dto.UserInsertDTO;
+import com.titanrig.titanrig.dto.UserUpdateDTO;
 import com.titanrig.titanrig.tests.TokenUtil;
 
 import jakarta.transaction.Transactional;
@@ -54,5 +56,16 @@ public class UserControllerIT {
 
         result.andExpect(status().isOk());
         result.andExpect(jsonPath("$.email").value(clientUsername));
+    }
+
+    @Test
+    public void deleteShouldReturnNoContentWhenIdExists() throws Exception {
+        String token = tokenUtil.obtainAccessToken(mockMvc, adminUsername, adminPassword);
+
+        ResultActions result = mockMvc.perform(delete("/users/2")
+                .header("Authorization", "Bearer " + token)
+                .accept(MediaType.APPLICATION_JSON));
+
+        result.andExpect(status().isNoContent());
     }
 }
