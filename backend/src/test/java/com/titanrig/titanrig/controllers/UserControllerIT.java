@@ -12,6 +12,8 @@ import org.springframework.test.web.servlet.ResultActions;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.time.LocalDate;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.titanrig.titanrig.dto.UserInsertDTO;
 import com.titanrig.titanrig.dto.UserUpdateDTO;
@@ -44,6 +46,28 @@ public class UserControllerIT {
         clientPassword = "123456";
         adminUsername = "maria@gmail.com";
         adminPassword = "123456";
+    }
+
+    @Test
+    public void insertShouldCreateUserWhenValidData() throws Exception {
+        UserInsertDTO dto = new UserInsertDTO();
+            dto.setName("Novo Usuário");
+            dto.setEmail("novo@email.com");
+            dto.setPassword("123456");
+            dto.setPhone("11999999999");
+            dto.setCpf("12345678900");
+            dto.setBirthDate(LocalDate.of(2000, 1, 1));
+            
+        String jsonBody = objectMapper.writeValueAsString(dto);
+
+        ResultActions result = mockMvc.perform(post("/users")
+                .content(jsonBody)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON));
+
+        result.andExpect(status().isCreated());
+        result.andExpect(jsonPath("$.id").exists());
+        result.andExpect(jsonPath("$.email").value("novo@email.com"));
     }
 
     @Test

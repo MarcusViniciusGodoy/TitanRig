@@ -50,6 +50,7 @@ public class SecurityConfig {
 		http.authorizeHttpRequests(authorize -> authorize
         .requestMatchers("/oauth2/token", "/h2-console/**").permitAll()
         .requestMatchers("/products/**").permitAll()  
+		.requestMatchers("/users").permitAll()
     	.requestMatchers("/reviews/**").authenticated()
         .anyRequest().authenticated()
     	);
