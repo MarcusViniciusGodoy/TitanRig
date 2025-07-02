@@ -44,7 +44,7 @@ public class UserControllerIT {
     void setUp() {
         clientUsername = "alex@gmail.com";
         clientPassword = "123456";
-        adminUsername = "maria@gmail.com";
+        adminUsername = "leticia@gmail.com";
         adminPassword = "123456";
     }
 
@@ -77,6 +77,18 @@ public class UserControllerIT {
                 .accept(MediaType.APPLICATION_JSON));
 
         result.andExpect(status().isForbidden());
+    }
+
+    @Test
+    public void findAllShouldReturnPagedUsersWhenAdminAuthenticated() throws Exception {
+        String token = tokenUtil.obtainAccessToken(mockMvc, adminUsername, adminPassword);
+
+        ResultActions result = mockMvc.perform(get("/users")
+                .header("Authorization", "Bearer " + token)
+                .accept(MediaType.APPLICATION_JSON));
+
+        result.andExpect(status().isOk());
+        result.andExpect(jsonPath("$.content").exists());
     }
 
     @Test
