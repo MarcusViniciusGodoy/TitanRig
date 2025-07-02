@@ -49,28 +49,6 @@ public class UserControllerIT {
     }
 
     @Test
-    public void insertShouldCreateUserWhenValidData() throws Exception {
-        UserInsertDTO dto = new UserInsertDTO();
-            dto.setName("Novo Usuário");
-            dto.setEmail("novo@email.com");
-            dto.setPassword("123456");
-            dto.setPhone("11999999999");
-            dto.setCpf("12345678900");
-            dto.setBirthDate(LocalDate.of(2000, 1, 1));
-            
-        String jsonBody = objectMapper.writeValueAsString(dto);
-
-        ResultActions result = mockMvc.perform(post("/users")
-                .content(jsonBody)
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON));
-
-        result.andExpect(status().isCreated());
-        result.andExpect(jsonPath("$.id").exists());
-        result.andExpect(jsonPath("$.email").value("novo@email.com"));
-    }
-
-    @Test
     public void findMeShouldReturnUserWhenClientAuthenticated() throws Exception {
         String token = tokenUtil.obtainAccessToken(mockMvc, clientUsername, clientPassword);
 
@@ -91,17 +69,6 @@ public class UserControllerIT {
     }
 
     @Test
-    public void deleteShouldReturnNoContentWhenIdExists() throws Exception {
-        String token = tokenUtil.obtainAccessToken(mockMvc, adminUsername, adminPassword);
-
-        ResultActions result = mockMvc.perform(delete("/users/2")
-                .header("Authorization", "Bearer " + token)
-                .accept(MediaType.APPLICATION_JSON));
-
-        result.andExpect(status().isNoContent());
-    }
-
-    @Test
     public void findAllShouldReturnForbiddenWhenClientAuthenticated() throws Exception {
         String token = tokenUtil.obtainAccessToken(mockMvc, clientUsername, clientPassword);
 
@@ -110,5 +77,62 @@ public class UserControllerIT {
                 .accept(MediaType.APPLICATION_JSON));
 
         result.andExpect(status().isForbidden());
+    }
+
+    @Test
+    public void insertShouldCreateUserWhenValidData() throws Exception {
+        UserInsertDTO dto = new UserInsertDTO();
+            dto.setName("Novo Usuário");
+            dto.setEmail("novo@email.com");
+            dto.setPassword("123456");
+            dto.setPhone("11999999999");
+            dto.setCpf("12345678900");
+            dto.setBirthDate(LocalDate.of(2000, 1, 1));
+
+        String jsonBody = objectMapper.writeValueAsString(dto);
+
+        ResultActions result = mockMvc.perform(post("/users")
+                .content(jsonBody)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON));
+
+        result.andExpect(status().isCreated());
+        result.andExpect(jsonPath("$.id").exists());
+        result.andExpect(jsonPath("$.email").value("novo@email.com"));
+    }
+
+    @Test
+    public void updateShouldUpdateUserWhenIdExists() throws Exception {
+        String token = tokenUtil.obtainAccessToken(mockMvc, adminUsername, adminPassword);
+
+        UserUpdateDTO dto = new UserUpdateDTO();
+            dto.setName("Maria Atualizada");
+            dto.setEmail("mariaAtualizada@email.com");
+            dto.setPhone("11988887777");
+            dto.setCpf("12345678900");
+            dto.setBirthDate(LocalDate.of(1990, 1, 1));
+
+        String jsonBody = objectMapper.writeValueAsString(dto);
+
+        ResultActions result = mockMvc.perform(put("/users/1")
+            .header("Authorization", "Bearer " + token)
+            .content(jsonBody)
+            .contentType(MediaType.APPLICATION_JSON)
+            .accept(MediaType.APPLICATION_JSON));
+
+        result.andExpect(status().isOk());
+        result.andExpect(jsonPath("$.id").value(1));
+        result.andExpect(jsonPath("$.name").value("Maria Atualizada"));
+    }
+
+    @Test
+    public void deleteShouldReturnNoContentWhenIdExists() throws Exception {
+        String token = tokenUtil.obtainAccessToken(mockMvc, adminUsername, adminPassword);
+
+        ResultActions result = mockMvc.perform(delete("/users/2")
+                .header("Authorization", "Bearer " + token)
+                .accept(MediaType.APPLICATION_JSON));
+
+        result.andExpect(status().isNoContent());
     }
 }
