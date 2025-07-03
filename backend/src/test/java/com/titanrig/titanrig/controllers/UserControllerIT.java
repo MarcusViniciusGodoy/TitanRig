@@ -92,6 +92,18 @@ public class UserControllerIT {
     }
 
     @Test
+    public void findByIdShouldReturnUserWhenAdminAuthenticated() throws Exception {
+        String token = tokenUtil.obtainAccessToken(mockMvc, adminUsername, adminPassword);
+
+        ResultActions result = mockMvc.perform(get("/users/1")
+                .header("Authorization", "Bearer " + token)
+                .accept(MediaType.APPLICATION_JSON));
+
+        result.andExpect(status().isOk());
+        result.andExpect(jsonPath("$.id").value(1));
+    }
+
+    @Test
     public void insertShouldCreateUserWhenValidData() throws Exception {
         UserInsertDTO dto = new UserInsertDTO();
             dto.setName("Novo Usuário");
