@@ -38,4 +38,12 @@ public class CategoryControllerIT {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
     }
+
+    @Test
+    public void findAllShouldReturnPagedCategories() throws Exception {
+        mockMvc.perform(get("/categories")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content").exists()); 
+    }
 }
