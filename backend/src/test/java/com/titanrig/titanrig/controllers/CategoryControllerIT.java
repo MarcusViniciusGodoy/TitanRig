@@ -57,4 +57,14 @@ public class CategoryControllerIT {
                 .andExpect(jsonPath("$.content[0].id").exists())
                 .andExpect(jsonPath("$.content[0].name").exists());
     }
+
+    @Test
+    public void findAllShouldReturnFirstPageWithSizeTwo() throws Exception {
+        mockMvc.perform(get("/categories?page=0&size=2")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content.length()").value(2))
+                .andExpect(jsonPath("$.totalElements").value(3))
+                .andExpect(jsonPath("$.totalPages").value(2));
+    }
 }
