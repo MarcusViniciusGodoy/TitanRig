@@ -40,10 +40,21 @@ public class CategoryControllerIT {
     }
 
     @Test
-    public void findAllShouldReturnPagedCategories() throws Exception {
+    public void findAllShouldReturnPagedCategory() throws Exception {
         mockMvc.perform(get("/categories")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content").exists()); 
+    }
+
+    @Test
+    public void findAllShouldReturnPagedCategories() throws Exception {
+        mockMvc.perform(get("/categories")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content").exists())
+                .andExpect(jsonPath("$.content.length()").value(3)) 
+                .andExpect(jsonPath("$.content[0].id").exists())
+                .andExpect(jsonPath("$.content[0].name").exists());
     }
 }
