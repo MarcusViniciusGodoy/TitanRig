@@ -77,4 +77,14 @@ public class CategoryControllerIT {
                 .andExpect(jsonPath("$.content[1].name").value("Memorias"))
                 .andExpect(jsonPath("$.content[2].name").value("Placas mães"));
     }
+
+    @Test
+    public void findAllShouldReturnCategoriesSortedByNameDesc() throws Exception {
+        mockMvc.perform(get("/categories?sort=name,desc")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content[0].name").value("Placas mães"))
+                .andExpect(jsonPath("$.content[1].name").value("Memorias"))
+                .andExpect(jsonPath("$.content[2].name").value("Gabinetes"));
+    }
 }
