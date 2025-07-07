@@ -87,4 +87,13 @@ public class CategoryControllerIT {
                 .andExpect(jsonPath("$.content[1].name").value("Memorias"))
                 .andExpect(jsonPath("$.content[2].name").value("Gabinetes"));
     }
+
+    @Test
+    public void findAllShouldReturnValidCategoryStructure() throws Exception {
+        mockMvc.perform(get("/categories")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content[0].id").isNumber())
+                .andExpect(jsonPath("$.content[0].name").isString());
+    }
 }
