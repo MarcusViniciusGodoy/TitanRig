@@ -96,4 +96,11 @@ public class CategoryControllerIT {
                 .andExpect(jsonPath("$.content[0].id").isNumber())
                 .andExpect(jsonPath("$.content[0].name").isString());
     }
+
+    @Test
+    public void findByIdShouldReturnBadRequestWhenIdIsInvalid() throws Exception {
+        mockMvc.perform(get("/categories/{id}", -1L)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest());
+    }
 }

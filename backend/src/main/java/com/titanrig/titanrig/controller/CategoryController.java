@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.titanrig.titanrig.dto.CategoryDTO;
 import com.titanrig.titanrig.services.CategoryService;
 
+import jakarta.validation.constraints.Min;
+
 @RestController
 @RequestMapping(value = "/categories")
 public class CategoryController {
@@ -26,7 +28,7 @@ public class CategoryController {
     } 
 
     @GetMapping(value = "/{id}")
-    public ResponseEntity<CategoryDTO> findById(@PathVariable Long id){
+    public ResponseEntity<CategoryDTO> findById(@PathVariable @Min(1) Long id){
         CategoryDTO dto = service.findById(id);
         return ResponseEntity.ok().body(dto);
     } 
