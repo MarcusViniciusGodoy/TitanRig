@@ -103,4 +103,14 @@ public class CategoryControllerIT {
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
     }
+
+    @Test
+    public void findAllShouldReturnEmptyPageWhenPageDoesNotExist() throws Exception {
+        mockMvc.perform(get("/categories?page=2&size=2")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content.length()").value(0))
+                .andExpect(jsonPath("$.totalElements").value(3))
+                .andExpect(jsonPath("$.totalPages").value(2));
+    }
 }
